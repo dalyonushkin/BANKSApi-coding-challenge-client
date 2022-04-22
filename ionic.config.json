@@ -1,0 +1,7 @@
+{
+  "name": "BANKSapi-coding-challange",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
