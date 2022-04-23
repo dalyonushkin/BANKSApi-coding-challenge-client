@@ -1,19 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="secondary">
-      <ion-button color="primary">
-        <ion-icon slot="icon-only" name="filter-circle-outline"></ion-icon>
+      <ion-button color="primary" (click)="presentFilterSorterModal()">
+        <ion-icon slot="icon-only" name="filter-circle-outline" ></ion-icon>
+      </ion-button>
+      <ion-button color="primary" (click)="showSearchBar=!showSearchBar">
+        <ion-icon slot="icon-only" name="search-outline"  ></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>
       Transfers List
     </ion-title>
   </ion-toolbar>
+  <ion-searchbar *ngIf="showSearchBar"  showClearButton="always"></ion-searchbar>
 </ion-header>
 
 
 
 <ion-content fullscreen>
+
   <ion-list lines="full">
 
     <ion-item-group *ngFor="let transfer of mockData">
