@@ -1,20 +1,67 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="secondary">
+      <ion-button color="primary">
+        <ion-icon slot="icon-only" name="filter-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>
-      Blank
+      Transfers List
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+
+<ion-content fullscreen>
+  <ion-list lines="full">
+
+    <ion-item-group *ngFor="let transfer of mockData">
+      <ion-item>
+        <ion-grid>
+          <ion-row class="ion-justify-content-between">
+            <ion-col size="auto">
+              {{transfer.date | date:'dd.MM.YYYY' }}
+            </ion-col>
+            <ion-col size="auto">
+              {{transfer.amount | currency : 'EUR' : 'symbol' : '0.2-2' }}
+            </ion-col>
+            <ion-col size="auto">
+              {{transfer.accountHolder}}
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-justify-content-between">
+            <ion-col size="auto">
+              <ion-label>IBAN:</ion-label>
+            </ion-col>
+            <ion-col size="auto">
+              {{transfer.iban}}
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-justify-content-between" *ngIf="transfer.note">
+            <ion-col size="12">
+              <ion-accordion-group>
+                <ion-accordion>
+                  <ion-item slot="header">
+                    Note
+                  </ion-item>
+                  <ion-list slot="content">
+
+                    <ion-text color="medium">
+                      {{transfer.note}}
+                    </ion-text>
+                  </ion-list>
+                </ion-accordion>
+              </ion-accordion-group>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+
+    </ion-item-group>
+
+
+  </ion-list>
+
 </ion-content>
