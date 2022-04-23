@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { EditTransferPage } from '../edit-transfer/edit-transfer.page';
 import { SortModalPage } from '../sort-modal/sort-modal.page';
-
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -51,13 +52,29 @@ software like Aldus PageMaker including versions of Lorem Ipsum.`},
       iban: 'DE12500105170648489890'
     }
   ];
-  constructor(public modalController: ModalController) { }
+  constructor(public modalController: ModalController, public alertController: AlertController) { }
 
-  async presentFilterSorterModal() {
+  async presentSortModal() {
     const modal = await this.modalController.create({
       component: SortModalPage
     });
     return await modal.present();
   }
 
+  async presentEditModal() {
+    const modal = await this.modalController.create({
+      component: EditTransferPage
+    });
+    return await modal.present();
+  }
+
+  async confrimDelete(){
+    const alert = await this.alertController.create({
+      header: 'Delete transfer?',
+      message: 'Delete transfer with amount 1232 on 24.04.2022?',
+      buttons: ['Confrirm', 'Cancel'],
+    });
+
+    await alert.present();
+  }
 }
