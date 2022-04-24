@@ -5,9 +5,11 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
+
 import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { transfersReducer } from './state-management/reducers/transfers.reducer';
+
 
 import { LOCALE_ID } from '@angular/core';
 
@@ -21,8 +23,13 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,  StoreModule.forRoot({ transfersStore: transfersReducer })],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },{provide: LOCALE_ID, useValue: 'de-DE' }],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    StoreModule.forRoot({ transfersStore: transfersReducer })
+  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: LOCALE_ID, useValue: 'de-DE' }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
