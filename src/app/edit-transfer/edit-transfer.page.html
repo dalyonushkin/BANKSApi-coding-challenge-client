@@ -3,34 +3,45 @@
     <ion-title>Edit Transfer</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <ion-item>
-    <ion-label position="stacked">Account Holder</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">IBAN</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Date</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Amount</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Note</ion-label>
-    <ion-textarea></ion-textarea>
-  </ion-item>
+  <div [formGroup]="transferForm">
+    <app-da-input-form-value header="Account Holder" [fromControlValidation]="accountHolder" [validationMessages]="validationMessages['accountHolder']">
+      <ion-input formControlName="accountHolder" class="form-controll"></ion-input>
+    </app-da-input-form-value>    
+    <app-da-input-form-value header="IBAN" [fromControlValidation]="iban" [validationMessages]="validationMessages['iban']">
+      <ion-input formControlName="iban" class="form-controll"></ion-input>
+    </app-da-input-form-value>
+    <app-da-input-form-value header="Date" [fromControlValidation]="date" [validationMessages]="validationMessages['date']">
+      {{transferForm.get('date').value | date:'dd.MM.YYYY'}}
+      <ion-button fill="clear" id="open-date-input-2">
+        <ion-icon icon="calendar"></ion-icon>
+      </ion-button>
+      <ion-popover trigger="open-date-input-2" show-backdrop="false"  [dismissOnSelect]="true">
+        <ng-template>
+          <ion-datetime
+            locale="de-DE"
+            #popoverDatetime2
+            presentation="date"
+            button="true"
+            (ionChange)="setDate(popoverDatetime2.value)"
+          >
+        </ion-datetime>
+        </ng-template>
+      </ion-popover>
+    </app-da-input-form-value>
+    <app-da-input-form-value header="Amount" [fromControlValidation]="amount" [validationMessages]="validationMessages['amount']">
+      <ion-input formControlName="amount" class="form-controll"></ion-input>
+    </app-da-input-form-value>
+    <app-da-input-form-value header="Note" [fromControlValidation]="note" [validationMessages]="validationMessages['note']">
+      <ion-textarea formControlName="note" class="form-controll" rows="3"></ion-textarea>
+    </app-da-input-form-value>
+  </div>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button color="primary" (click)="dismiss()">Save</ion-button>
-    </ion-buttons>    
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button color="primary" (click)="dismiss()">Cancel</ion-button>
     </ion-buttons>

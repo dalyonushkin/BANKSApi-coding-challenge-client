@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { transfersReducer } from '../state-management/reducers/transfers.reducer';
+import { AngularIbanModule } from 'angular-iban';
 
 import { HomePage } from './home.page';
 
@@ -12,7 +13,7 @@ describe('HomePage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ HomePage ],
-      imports: [IonicModule.forRoot(), StoreModule.forRoot({ transfersStore: transfersReducer })]
+      imports: [IonicModule.forRoot(), StoreModule.forRoot({ transfersStore: transfersReducer }),AngularIbanModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomePage);

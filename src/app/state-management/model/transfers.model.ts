@@ -1,7 +1,7 @@
 export interface TransferRecordDataI  {
     date: Date;
     amount: number;
-    accountHolder: string;
+    accountHolder?: string;
     iban: string;
     note?: string;
   }
