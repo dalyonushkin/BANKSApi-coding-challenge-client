@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { deleteTransfer } from '../state-management/actions/home-page.actions';
-import { FormBuilder } from '@angular/forms';
+import { addTransfer, deleteTransfer, updateTransfer } from '../state-management/actions/home-page.actions';
 
 
 @Component({
@@ -34,18 +33,27 @@ export class HomePage {
     return await modal.present();
   }
 
-  async presentEditModal() {
+  async presentEditModal(transfer?: TransferRecordDataI, id?: string) {
     const modal = await this.modalController.create({
-      component: EditTransferPage
+      component: EditTransferPage,
+      componentProps: {
+        transfer,
+        transferId: id
+      }
     });
-    return await modal.present();
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data?.transfer) {
+      if (data.transferId) { this.updateRecord(data.transferId, data.transfer); }
+      else { this.addRecord(data.transfer); }
+    }
   }
 
   async delete(id: string, transfer: TransferRecordDataI) {
     const currencyPipe = new CurrencyPipe('de-DE');
     const datePipe = new DatePipe('de-DE');
-    const amount=currencyPipe.transform(transfer.amount, 'EUR', 'symbol', '0.2-2');
-    const date=datePipe.transform(transfer.date,'dd.MM.YYYY');
+    const amount = currencyPipe.transform(transfer.amount, 'EUR', 'symbol', '0.2-2');
+    const date = datePipe.transform(transfer.date, 'dd.MM.YYYY');
     const alert = await this.alertController.create({
       header: 'Delete transfer?',
       message: `Delete a transfer in the amount of ${amount} from ${date}?`,
@@ -53,14 +61,21 @@ export class HomePage {
         text: 'Confirm',
         handler: () => {
           this.deleteRec(id);
-        }}, 'Cancel'],
+        }
+      }, 'Cancel'],
     });
 
     await alert.present();
   }
 
   deleteRec(id: string) {
-    this.store.dispatch(deleteTransfer({id}));
+    this.store.dispatch(deleteTransfer({ id }));
+  }
+  addRecord(transfer: TransferRecordDataI){
+    this.store.dispatch(addTransfer({ transfer }));
+  }
+  updateRecord(id: string, transfer: TransferRecordDataI){
+    this.store.dispatch(updateTransfer({ id,transfer }));
   }
 
 }
