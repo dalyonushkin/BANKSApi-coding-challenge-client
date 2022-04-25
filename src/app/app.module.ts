@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { transfersReducer } from './state-management/reducers/transfers.reducer';
+import { ConfigService } from './services/config.service';
+import { FormatterService } from './services/formatter.service';
 
 
 import { LOCALE_ID } from '@angular/core';
@@ -18,6 +20,7 @@ details https://stackoverflow.com/questions/66010145/missing-locale-data-for-the
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { UtilsService } from './services/utils.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 @NgModule({
@@ -29,7 +32,11 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     AppRoutingModule,
     StoreModule.forRoot({ transfersStore: transfersReducer })
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: LOCALE_ID, useValue: 'de-DE' }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: LOCALE_ID, useValue: 'de-DE' },
+    ConfigService, FormatterService, UtilsService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

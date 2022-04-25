@@ -3,7 +3,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 import { ModalController } from '@ionic/angular';
 import { TransferRecordDataI } from '../state-management/model/transfers.model';
 import { ValidatorService } from 'angular-iban';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { FormatterService } from '../services/formatter.service';
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-edit-transfer',
@@ -16,13 +17,7 @@ export class EditTransferPage implements OnInit {
   @Input() transferId?: string;
 
 
-  @Input() transfer?: TransferRecordDataI = {
-    accountHolder: '',
-    date: this.getTomorrow(),
-    iban: '',
-    amount: 50
-  };
-
+  @Input() transfer?: TransferRecordDataI;
   public transferForm: FormGroup;
 
   validationMessages = {
@@ -44,7 +39,11 @@ export class EditTransferPage implements OnInit {
     }
   };
 
-  constructor(public modalController: ModalController, private fb: FormBuilder) { }
+  constructor(
+    public modalController: ModalController,
+    private fb: FormBuilder,
+    private fmt: FormatterService,
+    private utl: UtilsService) { }
 
   get amount() { return this.transferForm.get('amount'); }
 
@@ -53,23 +52,16 @@ export class EditTransferPage implements OnInit {
   get date() { return this.transferForm.get('date'); }
 
   get title() {
-    const currencyPipe = new CurrencyPipe('de-DE');
-    const datePipe = new DatePipe('de-DE');
-    const amount=currencyPipe.transform(this.transfer.amount, 'EUR', 'symbol', '0.2-2');
-    const date=datePipe.transform(this.transfer.date,'dd.MM.YYYY');
-    return this.transferId?`Edit transfer ${amount} from ${date}`:'Add new transfer'; }
+    return this.transferId ?
+      `Edit transfer ${this.fmt.formatCurrency(this.transfer.amount)} from ${this.fmt.formatDate(this.transfer.date)}` :
+      'Add new transfer';
+  }
 
   setDate(date: Date) {
     this.transferForm.get('date').setValue(date);
     this.transferForm.get('date').markAsTouched({ onlySelf: true });
     this.transferForm.get('date').markAsDirty({ onlySelf: true });
   };
-
-
-  formatDate(date: Date): string {
-    const datePipe = new DatePipe('de-DE');
-    return datePipe.transform(date, 'dd.MM.YYYY');
-  }
 
   /*
   Unable to use `isDateEnabled` property described here https://ionicframework.com/docs/api/datetime, got error:
@@ -99,18 +91,12 @@ export class EditTransferPage implements OnInit {
     if (!this.transfer && !this.transferId) {
       this.transfer = {
         accountHolder: '',
-        date: this.getTomorrow(),
+        date: this.utl.addDays(new Date(), 1, true),
         iban: '',
         amount: 50
       };
     }
 
-    //const dateValidator = new FormControl(this.transfer.date, this.dateValidator());
-    let currentDate = new Date();
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    currentDate.setDate(currentDate.getDate() + 1);
-    //если задан id, то разрешить или предыдущее значение или больше текущей даты
-    //если не задан id
     this.transferForm = this.fb.group({
       amount: new FormControl(this.transfer.amount, [
         Validators.required,
@@ -126,7 +112,7 @@ export class EditTransferPage implements OnInit {
       ]),
       date: new FormControl(this.transfer.date, [
         Validators.required,
-        this.futureDateValidator(this.getTomorrow())
+        this.futureDateValidator(this.utl.addDays(new Date(), 1, true))
       ]),
       accountHolder: new FormControl(this.transfer.accountHolder),
       note: new FormControl(this.transfer.note),
@@ -134,19 +120,13 @@ export class EditTransferPage implements OnInit {
 
   }
 
-  getTomorrow() {
-    const tomorrowDate = new Date();
-    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-    tomorrowDate.setHours(0, 0, 0, 0);
-    return tomorrowDate;
-  }
-
   save() {
     this.transferForm.markAllAsTouched();
-    if (this.transferForm.valid){
+    if (this.transferForm.valid) {
       this.modalController.dismiss({
-        transferId:this.transferId,
-        transfer:this.transferForm.value});
+        transferId: this.transferId,
+        transfer: this.transferForm.value
+      });
     }
   }
 

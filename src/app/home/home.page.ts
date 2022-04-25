@@ -7,8 +7,8 @@ import { TransferRecordsList, TransferRecordDataI } from '../state-management/mo
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { CurrencyPipe, DatePipe } from '@angular/common';
 import { addTransfer, deleteTransfer, updateTransfer } from '../state-management/actions/home-page.actions';
+import { FormatterService } from '../services/formatter.service';
 
 
 @Component({
@@ -22,7 +22,8 @@ export class HomePage {
   constructor(
     private store: Store<{ transfersStore: { transfers: TransferRecordsList } }>,
     public modalController: ModalController,
-    public alertController: AlertController) {
+    public alertController: AlertController,
+    private fmt: FormatterService) {
     this.transfersList$ = store.select('transfersStore').pipe(map((transfersStore) => transfersStore.transfers));
   }
 
@@ -44,23 +45,23 @@ export class HomePage {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.transfer) {
-      if (data.transferId) { this.updateRecord(data.transferId, data.transfer); }
-      else { this.addRecord(data.transfer); }
+      if (data.transferId) {
+        this.updateTransfer(data.transferId, data.transfer);
+      }
+      else {
+        this.addTransfer(data.transfer);
+      }
     }
   }
 
-  async delete(id: string, transfer: TransferRecordDataI) {
-    const currencyPipe = new CurrencyPipe('de-DE');
-    const datePipe = new DatePipe('de-DE');
-    const amount = currencyPipe.transform(transfer.amount, 'EUR', 'symbol', '0.2-2');
-    const date = datePipe.transform(transfer.date, 'dd.MM.YYYY');
+  async confirmDeleteTransfer(id: string, transfer: TransferRecordDataI) {
     const alert = await this.alertController.create({
       header: 'Delete transfer?',
-      message: `Delete a transfer in the amount of ${amount} from ${date}?`,
+      message: `Delete a transfer in the amount of ${this.fmt.formatCurrency(transfer.amount)} from ${this.fmt.formatDate(transfer.date)}?`,
       buttons: [{
         text: 'Confirm',
         handler: () => {
-          this.deleteRec(id);
+          this.deleteTransfer(id);
         }
       }, 'Cancel'],
     });
@@ -68,14 +69,14 @@ export class HomePage {
     await alert.present();
   }
 
-  deleteRec(id: string) {
+  deleteTransfer(id: string) {
     this.store.dispatch(deleteTransfer({ id }));
   }
-  addRecord(transfer: TransferRecordDataI){
+  addTransfer(transfer: TransferRecordDataI) {
     this.store.dispatch(addTransfer({ transfer }));
   }
-  updateRecord(id: string, transfer: TransferRecordDataI){
-    this.store.dispatch(updateTransfer({ id,transfer }));
+  updateTransfer(id: string, transfer: TransferRecordDataI) {
+    this.store.dispatch(updateTransfer({ id, transfer }));
   }
 
 }
