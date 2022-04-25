@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { TransferRecordsList } from '../model/transfers.model';
 import * as HomePageActions from '../actions/home-page.actions';
 import { v4 as uuidv4 } from 'uuid';
