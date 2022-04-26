@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 import { AngularIbanModule } from 'angular-iban';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { FilterTransferPipe } from '../pipes/filter-transfer.pipe';
 
 
 @NgModule({
@@ -16,6 +17,6 @@ import { HomePageRoutingModule } from './home-routing.module';
     HomePageRoutingModule,
     AngularIbanModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage,FilterTransferPipe]
 })
 export class HomePageModule {}

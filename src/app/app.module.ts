@@ -21,6 +21,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { UtilsService } from './services/utils.service';
+//import { FilterTransferPipe } from './pipes/filter-transfer.pipe';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 @NgModule({

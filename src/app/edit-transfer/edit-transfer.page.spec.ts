@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { EditTransferPage } from './edit-transfer.page';
 import { UtilsService } from '../services/utils.service';
+import { DaInputFormValueComponent } from '../components/da-input-form-value/da-input-form-value.component';
 
 
 describe('EditTransferPage in Add mode', () => {
@@ -12,7 +13,7 @@ describe('EditTransferPage in Add mode', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [EditTransferPage],
+      declarations: [EditTransferPage,DaInputFormValueComponent],
       imports: [IonicModule.forRoot(), ReactiveFormsModule]
     }).compileComponents();
 

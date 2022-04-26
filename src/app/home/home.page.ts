@@ -4,11 +4,12 @@ import { EditTransferPage } from '../edit-transfer/edit-transfer.page';
 import { SortModalPage } from '../sort-modal/sort-modal.page';
 import { AlertController } from '@ionic/angular';
 import { TransferRecordsList, TransferRecordDataI } from '../state-management/model/transfers.model';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { Observable, pipe } from 'rxjs';
+import { createSelector, select, Store } from '@ngrx/store';
+import { filter, map } from 'rxjs/operators';
 import { addTransfer, deleteTransfer, updateTransfer } from '../state-management/actions/home-page.actions';
 import { FormatterService } from '../services/formatter.service';
+import { TransfersState } from '../state-management/reducers/transfers.reducer';
 
 
 @Component({
@@ -19,12 +20,26 @@ import { FormatterService } from '../services/formatter.service';
 export class HomePage {
   transfersList$: Observable<TransferRecordsList>;
 
+  searchText = '';
+
+  selectTransfers = createSelector(
+    (state: TransfersState) => state.transfers,
+    (transfers) => transfers
+  );
+
+
   constructor(
     private store: Store<{ transfersStore: { transfers: TransferRecordsList } }>,
     public modalController: ModalController,
     public alertController: AlertController,
     private fmt: FormatterService) {
-    this.transfersList$ = store.select('transfersStore').pipe(map((transfersStore) => transfersStore.transfers));
+    //I have some issues with NgRX selectors typings, so, doing select with RxJS now. If i'll have free time, i'll fix it later.
+    this.transfersList$ = store.pipe(select('transfersStore'), map((transfersStore) => transfersStore.transfers));
+  }
+
+  onSearchUpdate(event: CustomEvent) {
+    this.searchText = event.detail.value;
+    console.log(this.searchText, event);
   }
 
   async presentSortModal() {

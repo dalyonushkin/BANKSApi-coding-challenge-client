@@ -20,6 +20,8 @@ import { FormatterService } from '../services/formatter.service';
 import { UtilsService } from '../services/utils.service';
 import { EditTransferPage } from '../edit-transfer/edit-transfer.page';
 import { skip } from 'rxjs/operators';
+import { DaInputFormValueComponent } from '../components/da-input-form-value/da-input-form-value.component';
+import { FilterTransferPipe } from '../pipes/filter-transfer.pipe';
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 describe('HomePage', () => {
@@ -55,7 +57,7 @@ describe('HomePage', () => {
   let store: MockStore;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HomePage],
+      declarations: [HomePage,DaInputFormValueComponent,FilterTransferPipe],
       imports: [IonicModule.forRoot(), StoreModule.forRoot({ transfersStore: transfersReducer }), AngularIbanModule, ReactiveFormsModule],
       providers: [
         {
