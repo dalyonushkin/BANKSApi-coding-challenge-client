@@ -12,10 +12,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'sort-modal',
-    loadChildren: () => import('./sort-modal/sort-modal.module').then( m => m.SortModalPageModule)
-  },
-  {
     path: 'edit-transfer',
     loadChildren: () => import('./edit-transfer/edit-transfer.module').then( m => m.EditTransferPageModule)
   },
