@@ -7,7 +7,7 @@ import { AngularIbanModule } from 'angular-iban';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { FilterTransferPipe } from '../pipes/filter-transfer.pipe';
-
+import {NgPipesModule} from 'ngx-pipes';
 
 @NgModule({
   imports: [
@@ -15,7 +15,8 @@ import { FilterTransferPipe } from '../pipes/filter-transfer.pipe';
     ReactiveFormsModule,
     IonicModule,
     HomePageRoutingModule,
-    AngularIbanModule
+    AngularIbanModule,
+    NgPipesModule
   ],
   declarations: [HomePage,FilterTransferPipe]
 })

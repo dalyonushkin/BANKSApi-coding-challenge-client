@@ -1,10 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="secondary">
-      <ion-button color="primary" (click)="presentSortModal()">
+       <!--Here is antipattern, just to show how to exclude code from codecoverage. There are same antipattern one more -->
+      <ion-button color="primary" (click)="toggleSortBar()">
         <ion-icon slot="icon-only" name="filter-circle-outline" ></ion-icon>
       </ion-button>
-      <ion-button color="primary" (click)="showSearchBar=searchText?true:!showSearchBar">
+      <ion-button color="{{canToggleSearchBar()?'primary':'light'}}" (click)="toggleSearchBar()">
         <ion-icon slot="icon-only" name="search-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -13,14 +14,25 @@
     </ion-title>
   </ion-toolbar>
   <ion-searchbar *ngIf="showSearchBar"  showClearButton="always"  debounce="300" [value]="searchText" (ionChange)="onSearchUpdate($event)" ></ion-searchbar>
+  <!--Here is antipattern, just to show how to exclude code from codecoverage. Also, hard to maintain, hard to add new features. 
+    Implicit property "sortField" creation
+  -->
+  <div *ngIf="showSortBar">Sort list by:
+    <ion-chip color="{{sortField=='value.accountHolder'?'primary':'dark'}}" (click)="sortField='value.accountHolder'">
+      <ion-label color="{{sortField=='value.accountHolder'?'primary':'medium'}}">Account Holder</ion-label>
+    </ion-chip>
+    <ion-chip color="{{sortField=='value.date'?'primary':'dark'}}" (click)="sortField='value.date'">
+      <ion-label color="{{sortField=='value.date'?'primary':'medium'}}">Date</ion-label>
+    </ion-chip>
+  
+  </div>
 </ion-header>
 
 
 
-<ion-content fullscreen>
-
+<ion-content fullscreen> 
   <ion-list lines="full">
-    <ion-item-group *ngFor="let transfer of transfersList$ | async | filterTransfer: searchText| keyvalue">
+    <ion-item-group *ngFor="let transfer of transfersList$ | async | filterTransfer: searchText| keyvalue | orderBy: sortField">
       <ion-item-sliding>
         <ion-item-options side="start">
           <ion-item-option color="danger" expandable (click)="confirmDeleteTransfer(transfer.key,transfer.value)">

@@ -7,6 +7,7 @@ import { AngularIbanModule } from 'angular-iban';
 
 import { HomePage } from './home.page';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgPipesModule } from 'ngx-pipes';
 
 import { LOCALE_ID } from '@angular/core';
 
@@ -19,7 +20,6 @@ import { ConfigService } from '../services/config.service';
 import { FormatterService } from '../services/formatter.service';
 import { UtilsService } from '../services/utils.service';
 import { EditTransferPage } from '../edit-transfer/edit-transfer.page';
-import { skip } from 'rxjs/operators';
 import { DaInputFormValueComponent } from '../components/da-input-form-value/da-input-form-value.component';
 import { FilterTransferPipe } from '../pipes/filter-transfer.pipe';
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -57,8 +57,14 @@ describe('HomePage', () => {
   let store: MockStore;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HomePage,DaInputFormValueComponent,FilterTransferPipe],
-      imports: [IonicModule.forRoot(), StoreModule.forRoot({ transfersStore: transfersReducer }), AngularIbanModule, ReactiveFormsModule],
+      declarations: [HomePage, DaInputFormValueComponent, FilterTransferPipe],
+      imports: [
+        IonicModule.forRoot(),
+        StoreModule.forRoot({ transfersStore: transfersReducer }),
+        AngularIbanModule,
+        ReactiveFormsModule,
+        NgPipesModule
+      ],
       providers: [
         {
           provide: ModalController,
@@ -131,11 +137,6 @@ describe('HomePage', () => {
     });
   });
 
-  it('should show Sort Modal', async () => {
-
-    await component.presentSortModal();
-    expect(modalSpy.present).toHaveBeenCalled();
-  });
 
   it('should show confirm on delete', async () => {
     await component.confirmDeleteTransfer('a', { amount: 1, date: new Date(), iban: '123' });

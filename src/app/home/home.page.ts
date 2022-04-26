@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { EditTransferPage } from '../edit-transfer/edit-transfer.page';
-import { SortModalPage } from '../sort-modal/sort-modal.page';
 import { AlertController } from '@ionic/angular';
 import { TransferRecordsList, TransferRecordDataI } from '../state-management/model/transfers.model';
-import { Observable, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 import { createSelector, select, Store } from '@ngrx/store';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { addTransfer, deleteTransfer, updateTransfer } from '../state-management/actions/home-page.actions';
 import { FormatterService } from '../services/formatter.service';
 import { TransfersState } from '../state-management/reducers/transfers.reducer';
@@ -21,12 +20,8 @@ export class HomePage {
   transfersList$: Observable<TransferRecordsList>;
 
   searchText = '';
-
-  selectTransfers = createSelector(
-    (state: TransfersState) => state.transfers,
-    (transfers) => transfers
-  );
-
+  showSortBar = false;
+  showSearchBar = false;
 
   constructor(
     private store: Store<{ transfersStore: { transfers: TransferRecordsList } }>,
@@ -37,17 +32,11 @@ export class HomePage {
     this.transfersList$ = store.pipe(select('transfersStore'), map((transfersStore) => transfersStore.transfers));
   }
 
+
   onSearchUpdate(event: CustomEvent) {
     this.searchText = event.detail.value;
-    console.log(this.searchText, event);
   }
 
-  async presentSortModal() {
-    const modal = await this.modalController.create({
-      component: SortModalPage
-    });
-    return await modal.present();
-  }
 
   async presentEditModal(transfer?: TransferRecordDataI, id?: string) {
     const modal = await this.modalController.create({
@@ -69,6 +58,15 @@ export class HomePage {
     }
   }
 
+  toggleSortBar() {
+    this.showSortBar = !this.showSortBar;
+  }
+  toggleSearchBar() {
+    if (this.canToggleSearchBar()) { this.showSearchBar = !this.showSearchBar; }
+  }
+  canToggleSearchBar() {
+    return !(this.searchText && this.showSearchBar);
+  }
   async confirmDeleteTransfer(id: string, transfer: TransferRecordDataI) {
     const alert = await this.alertController.create({
       header: 'Delete transfer?',
