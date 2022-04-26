@@ -143,4 +143,58 @@ describe('HomePage', () => {
     expect(alertSpy.present).toHaveBeenCalled();
   });
 
+  it('should update "searchText" on event update text in searchbar', async () => {
+    component.searchText=null;
+    expect(component.searchText).toBeNull();
+    const evt= new CustomEvent('update',{detail:{value:'abc123'}});
+    component.onSearchUpdate(evt);
+    expect(component.searchText).toEqual('abc123');
+  });
+
+  it('should allow "canToggleSearchBar" when no text in searchbar', async () => {
+    component.showSearchBar=true;
+    component.searchText=null;
+    expect(component.canToggleSearchBar()).toBeTrue();
+    component.showSearchBar=false;
+    component.searchText=null;
+    expect(component.canToggleSearchBar()).toBeTrue();
+  });
+  it('should allow "canToggleSearchBar" when there are text in searchbar and searchBar is hidden', async () => {
+    component.showSearchBar=false;
+    component.searchText='text';
+    expect(component.canToggleSearchBar()).toBeTrue();
+  });
+  it('should disallow "canToggleSearchBar" when there are text in searchbar and searchBar is shown', async () => {
+    component.showSearchBar=true;
+    component.searchText='text';
+    expect(component.canToggleSearchBar()).toBeFalse();
+  });
+  it('should "toggleSearchBar" when no text in searchbar', async () => {
+    component.showSearchBar=true;
+    component.searchText=null;
+    component.toggleSearchBar();
+    expect(component.showSearchBar).toBeFalse();
+    component.toggleSearchBar();
+    expect(component.showSearchBar).toBeTrue();
+  });
+  it('should "toggleSearchBar" to true when there are text in searchbar and searchBar is hidden', async () => {
+    component.showSearchBar=true;
+    component.searchText='text';
+    component.toggleSearchBar();
+    expect(component.showSearchBar).toBeTrue();
+    component.toggleSearchBar();
+    expect(component.showSearchBar).toBeTrue();
+  });
+  it('should "toggleSortBar"', async () => {
+    component.showSortBar=true;
+    component.toggleSortBar();
+    expect(component.showSortBar).toBeFalse();
+    component.toggleSortBar();
+    expect(component.showSortBar).toBeTrue();
+  });
+
+  //skip this tests I have not so much time to learn how mock NgRX Store in a correct way
+  //it.skip('should dispach deleteTransfer reducer when function deleteTransfer called',()=>{});
+  //it.skip('should dispach addTransfer reducer when function addTransfer called',()=>{});
+  //it.skip('should dispach updateTransfer reducer when function updateTransfer called',()=>{});
 });
