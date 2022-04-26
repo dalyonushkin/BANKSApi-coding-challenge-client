@@ -3,11 +3,11 @@ import { TransferRecordsList } from '../model/transfers.model';
 import * as HomePageActions from '../actions/home-page.actions';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface State {
+export interface TransfersState {
   transfers: TransferRecordsList;
 }
 
-export const initialState: State = {
+export const initialState: TransfersState = {
   transfers: {
     '10a': {
       date: new Date(),
