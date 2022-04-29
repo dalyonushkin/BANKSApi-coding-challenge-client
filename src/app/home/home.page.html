@@ -28,11 +28,9 @@
   </div>
 </ion-header>
 
-
-
 <ion-content fullscreen> 
   <ion-list lines="full">
-    <ion-item-group *ngFor="let transfer of transfersList$ | async | filterTransfer: searchText| keyvalue | orderBy: sortField">
+    <ion-item-group *ngFor="let transfer of filtredTransfersList | keyvalue | orderBy: sortField">
       <ion-item-sliding>
         <ion-item-options side="start">
           <ion-item-option color="danger" expandable (click)="confirmDeleteTransfer(transfer.key,transfer.value)">
@@ -87,9 +85,8 @@
       </ion-item-options>
     </ion-item-sliding>
     </ion-item-group>
-
-
   </ion-list>
+  <ion-item *ngIf="!searchResultExists"><ion-label color="warning">Nothing found!</ion-label></ion-item>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="presentEditModal()">
       <ion-icon name="add-outline"></ion-icon>

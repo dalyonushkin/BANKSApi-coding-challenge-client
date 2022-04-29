@@ -14,7 +14,7 @@ describe('Transfers List App', () => {
     });
     it('should show "Nothing found" when nothing found', () => {
       cy.searchTransferListSearchbar('1232');
-      cy.contains('Nothing found!');
+      cy.contains('Nothing found!',{timeout:1000});
 
     });
   });

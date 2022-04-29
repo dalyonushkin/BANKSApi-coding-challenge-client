@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { addTransfer, deleteTransfer, updateTransfer } from '../state-management/actions/home-page.actions';
 import { FormatterService } from '../services/formatter.service';
 import { TransfersState } from '../state-management/reducers/transfers.reducer';
+import { UtilsService} from '../services/utils.service';
 
 
 @Component({
@@ -18,6 +19,9 @@ import { TransfersState } from '../state-management/reducers/transfers.reducer';
 })
 export class HomePage {
   transfersList$: Observable<TransferRecordsList>;
+  filtredTransfersList: TransferRecordsList;
+  transfersList: TransferRecordsList;
+  searchResultExists=false;
 
   searchText = '';
   showSortBar = false;
@@ -27,14 +31,28 @@ export class HomePage {
     private store: Store<{ transfersStore: { transfers: TransferRecordsList } }>,
     public modalController: ModalController,
     public alertController: AlertController,
-    private fmt: FormatterService) {
+    private fmt: FormatterService,
+    private utl: UtilsService) {
     //I have some issues with NgRX selectors typings, so, doing select with RxJS now. If i'll have free time, i'll fix it later.
-    this.transfersList$ = store.pipe(select('transfersStore'), map((transfersStore) => transfersStore.transfers));
+    this.transfersList$ = store.pipe(
+        select('transfersStore'),
+        map((transfersStore) => transfersStore.transfers)
+        );
+    this.transfersList$.subscribe((transfers)=>{
+      this.transfersList=transfers;
+      this.updateTransfersLists();
+    });
   }
 
 
   onSearchUpdate(event: CustomEvent) {
     this.searchText = event.detail.value;
+    this.updateTransfersLists();
+  }
+
+  updateTransfersLists(){
+    this.filtredTransfersList=this.utl.filterTransfers(this.transfersList,this.searchText);
+    this.searchResultExists=Object.keys(this.filtredTransfersList).length>0;
   }
 
 
