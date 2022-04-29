@@ -1,11 +1,11 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" id="transferslist-header">
   <ion-toolbar>
     <ion-buttons slot="secondary">
        <!--Here is antipattern, just to show how to exclude code from codecoverage. There are same antipattern one more -->
       <ion-button color="primary" (click)="toggleSortBar()">
         <ion-icon slot="icon-only" name="filter-circle-outline" ></ion-icon>
       </ion-button>
-      <ion-button color="{{canToggleSearchBar()?'primary':'light'}}" (click)="toggleSearchBar()">
+      <ion-button id="button-toggle-searchbar-transferslist" color="{{canToggleSearchBar()?'primary':'light'}}" (click)="toggleSearchBar()">
         <ion-icon slot="icon-only" name="search-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -13,7 +13,7 @@
       Transfers List
     </ion-title>
   </ion-toolbar>
-  <ion-searchbar *ngIf="showSearchBar"  showClearButton="always"  debounce="300" [value]="searchText" (ionChange)="onSearchUpdate($event)" ></ion-searchbar>
+  <ion-searchbar  id="searchbar-transferslist" *ngIf="showSearchBar"  showClearButton="always"  debounce="300" [value]="searchText" (ionChange)="onSearchUpdate($event)" ></ion-searchbar>
   <!--Here is antipattern, just to show how to exclude code from codecoverage. Also, hard to maintain, hard to add new features. 
     Implicit property "sortField" creation
   -->
