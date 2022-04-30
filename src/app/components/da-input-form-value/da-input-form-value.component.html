@@ -1,5 +1,4 @@
 <ion-item>
-
   <ion-grid>
     <ion-row>
       <ion-label>{{header}}</ion-label>
@@ -8,7 +7,7 @@
       <ng-content></ng-content>
     </ion-row>
     <ion-row>
-      <div *ngIf="fromControlValidation?.invalid && (fromControlValidation?.dirty || fromControlValidation?.touched)">
+      <div *ngIf="isShowError">
         <div *ngFor="let error of fromControlValidation?.errors | keyvalue" style="color: red;">
           {{validationMessages[error.key]}}
         </div>

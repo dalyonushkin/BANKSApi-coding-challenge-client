@@ -6,16 +6,17 @@ import { AbstractControl } from '@angular/forms';
   templateUrl: './da-input-form-value.component.html',
   styleUrls: ['./da-input-form-value.component.scss'],
 })
-export class DaInputFormValueComponent implements OnInit {
+export class DaInputFormValueComponent  {
 
   @Input() header: string;
-  @Input() validationMessages: {[key: string]: string};
+  @Input() validationMessages: { [key: string]: string };
   @Input() fromControlValidation: AbstractControl;
 
   constructor() { }
 
-  ngOnInit() {
 
+  get isShowError(): boolean {
+    return (this.fromControlValidation?.invalid && (this.fromControlValidation?.dirty || this.fromControlValidation?.touched));
   }
 
 }
