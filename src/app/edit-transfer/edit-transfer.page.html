@@ -16,14 +16,15 @@
       <ion-button fill="clear" id="open-date-input-2">
         <ion-icon icon="calendar"></ion-icon>
       </ion-button>
-      <ion-popover trigger="open-date-input-2" show-backdrop="false"  [dismissOnSelect]="true">
+      <ion-popover trigger="open-date-input-2" show-backdrop="false" >
         <ng-template>
           <ion-datetime
-            locale="de-DE"
+            locale="{{cfg.locale}}"
             #popoverDatetime2
             presentation="date"
             button="true"
             (ionChange)="setDate(popoverDatetime2.value)"
+            show-default-buttons="true"
           >
         </ion-datetime>
         </ng-template>

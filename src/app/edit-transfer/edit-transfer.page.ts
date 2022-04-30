@@ -5,6 +5,7 @@ import { TransferRecordDataI } from '../state-management/model/transfers.model';
 import { ValidatorService } from 'angular-iban';
 import { FormatterService } from '../services/formatter.service';
 import { UtilsService } from '../services/utils.service';
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'app-edit-transfer',
@@ -43,7 +44,8 @@ export class EditTransferPage implements OnInit {
     public modalController: ModalController,
     private fb: FormBuilder,
     private fmt: FormatterService,
-    private utl: UtilsService) { }
+    private utl: UtilsService,
+    private cfg: ConfigService) { }
 
   get amount() { return this.transferForm.get('amount'); }
 
