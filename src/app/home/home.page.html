@@ -18,11 +18,11 @@
     Implicit property "sortField" creation
   -->
   <div *ngIf="showSortBar">Sort list by:
-    <ion-chip color="{{sortField=='value.accountHolder'?'primary':'dark'}}" (click)="sortField='value.accountHolder'">
-      <ion-label color="{{sortField=='value.accountHolder'?'primary':'medium'}}">Account Holder</ion-label>
+    <ion-chip color="{{sortField==='value.accountHolder'?'primary':'dark'}}" (click)="sortField='value.accountHolder'">
+      <ion-label color="{{sortField==='value.accountHolder'?'primary':'medium'}}">Account Holder</ion-label>
     </ion-chip>
-    <ion-chip color="{{sortField=='value.date'?'primary':'dark'}}" (click)="sortField='value.date'">
-      <ion-label color="{{sortField=='value.date'?'primary':'medium'}}">Date</ion-label>
+    <ion-chip color="{{sortField==='value.date'?'primary':'dark'}}" (click)="sortField='value.date'">
+      <ion-label color="{{sortField==='value.date'?'primary':'medium'}}">Date</ion-label>
     </ion-chip>
   
   </div>

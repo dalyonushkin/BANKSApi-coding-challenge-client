@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TransferRecordDataI } from '../state-management/model/transfers.model';
@@ -13,11 +13,7 @@ import { ConfigService } from '../services/config.service';
   styleUrls: ['./edit-transfer.page.scss'],
 })
 export class EditTransferPage implements OnInit {
-
-
   @Input() transferId?: string;
-
-
   @Input() transfer?: TransferRecordDataI;
   public transferForm: FormGroup;
 
@@ -45,6 +41,7 @@ export class EditTransferPage implements OnInit {
     private fb: FormBuilder,
     private fmt: FormatterService,
     private utl: UtilsService,
+    //cfg is ising in template
     private cfg: ConfigService) { }
 
   get amount() { return this.transferForm.get('amount'); }
@@ -87,7 +84,6 @@ export class EditTransferPage implements OnInit {
       return isDateInFuture ? null : { futureDate: { value: control.value } };
     };
   }
-
 
   ngOnInit() {
     if (!this.transfer && !this.transferId) {

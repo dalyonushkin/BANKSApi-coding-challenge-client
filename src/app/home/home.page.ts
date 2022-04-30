@@ -4,12 +4,11 @@ import { EditTransferPage } from '../edit-transfer/edit-transfer.page';
 import { AlertController } from '@ionic/angular';
 import { TransferRecordsList, TransferRecordDataI } from '../state-management/model/transfers.model';
 import { Observable } from 'rxjs';
-import { createSelector, select, Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { addTransfer, deleteTransfer, updateTransfer } from '../state-management/actions/home-page.actions';
 import { FormatterService } from '../services/formatter.service';
-import { TransfersState } from '../state-management/reducers/transfers.reducer';
-import { UtilsService} from '../services/utils.service';
+import { UtilsService } from '../services/utils.service';
 
 
 @Component({
@@ -21,9 +20,9 @@ export class HomePage {
   transfersList$: Observable<TransferRecordsList>;
   filtredTransfersList: TransferRecordsList;
   transfersList: TransferRecordsList;
-  searchResultExists=false;
+  searchResultExists = false;
 
-  searchText = '';
+  searchText:string = '';
   showSortBar = false;
   showSearchBar = false;
 
@@ -35,26 +34,24 @@ export class HomePage {
     private utl: UtilsService) {
     //I have some issues with NgRX selectors typings, so, doing select with RxJS now. If i'll have free time, i'll fix it later.
     this.transfersList$ = store.pipe(
-        select('transfersStore'),
-        map((transfersStore) => transfersStore.transfers)
-        );
-    this.transfersList$.subscribe((transfers)=>{
-      this.transfersList=transfers;
+      select('transfersStore'),
+      map((transfersStore) => transfersStore.transfers)
+    );
+    this.transfersList$.subscribe((transfers) => {
+      this.transfersList = transfers;
       this.updateTransfersLists();
     });
   }
-
 
   onSearchUpdate(event: CustomEvent) {
     this.searchText = event.detail.value;
     this.updateTransfersLists();
   }
 
-  updateTransfersLists(){
-    this.filtredTransfersList=this.utl.filterTransfers(this.transfersList,this.searchText);
-    this.searchResultExists=Object.keys(this.filtredTransfersList).length>0;
+  updateTransfersLists() {
+    this.filtredTransfersList = this.utl.filterTransfers(this.transfersList, this.searchText);
+    this.searchResultExists = Object.keys(this.filtredTransfersList).length > 0;
   }
-
 
   async presentEditModal(transfer?: TransferRecordDataI, id?: string) {
     const modal = await this.modalController.create({
@@ -79,10 +76,12 @@ export class HomePage {
   toggleSortBar() {
     this.showSortBar = !this.showSortBar;
   }
+
   toggleSearchBar() {
     if (this.canToggleSearchBar()) { this.showSearchBar = !this.showSearchBar; }
   }
-  canToggleSearchBar() {
+
+  canToggleSearchBar(): boolean {
     return !(this.searchText && this.showSearchBar);
   }
   async confirmDeleteTransfer(id: string, transfer: TransferRecordDataI) {

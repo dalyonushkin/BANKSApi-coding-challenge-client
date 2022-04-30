@@ -21,10 +21,18 @@ You can found code coverage report at  `coverage/transer-app/index.html`
 Run Cypress testing
 `npm run cypress:run`
 
-## Know issues
+## Some issues, comments and todos that I did not have time to implement
 - Page Design is not my master skill :(
 - I'm unable to use property [isDateEnabled](https://ionicframework.com/docs/api/datetime#disabling-dates) of `ion-datetime` component. Looks like there are same [issue at GitHub](https://github.com/ionic-team/ionic-framework/issues/25189)
 - FormBuilder auto-validation changes the class of the parent component, I couldn't find a way to reproduce the same behavior in the controller's code. I decided to develop the component to make it look the same.
 - I've spent some time to resolve some differenet `ionic` versions issues (v3 vs v5) installed on the same computer. I'm using `npx`, but not `nvm`. Anyway, now ionic v6 is installed globally at my computer :)
-- In my opinion, I don't show full usage of NgRX as you expected. There are only simple reducers, store and selector, but no effects at the moment. Probably you want to I implement http requests to server, but I didn't. Also, I have some issues with selector's typings. I wish to make this part better, but  I have no time tomorrow (01.05.2022). 
+- In my opinion, I don't show full usage of NgRX as you expected. There are only simple reducers, store and selector, but no effects at the moment. Probably you want to I implement http requests to server and filters with NgRX, but I didn't. Also, I have some issues with selector's typings. I wish to make this part better, but  I have no time tomorrow (01.05.2022). 
 - There are some example of antipattern in template `src/app/home/home.page.html`. I've placed it there just for example how to avoid code coverage quality gate.
+- Todo:  move `ValidationMessages` to interface,
+- Todo:  move all staff related to model to separete file,
+-  I'm unable to use `jasmine` and `cypress` typing at the same time, now there are  `cypress`,
+- Todo: fix duplicate code at  `src/app/pipes/filter-transfer.pipe.ts`, need to use `UtilsService.filterTransfers`,
+- Todo: move `UtilsService.filterTransfers` to model,
+- Suppose that `J`  in date format `DD.MM.JJJJ` is for `year`,
+- I was surprised about `eslint` default rule [`no-inferrable-types`](https://github.com/typescript-eslint/typescript-eslint/blob/v5.3.0/packages/eslint-plugin/docs/rules/no-inferrable-types.md),
+- I liked the Cypress
