@@ -22,7 +22,7 @@ export class HomePage {
   transfersList: TransferRecordsList;
   searchResultExists = false;
 
-  searchText:string = '';
+  searchText = '';
   showSortBar = false;
   showSearchBar = false;
 
