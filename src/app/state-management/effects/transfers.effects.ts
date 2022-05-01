@@ -11,7 +11,6 @@ export class TransfersEffects {
     ofType('[Home Page] Load Transfers'),
     mergeMap(() => this.transfersService.getAllTransfers()
       .pipe(
-          tap(transfers=>console.log(transfers)),
         map(transfers => ({ type: '[Transfers API] Transfers Loaded Success', transfers })),
         catchError(() => EMPTY)
       ))

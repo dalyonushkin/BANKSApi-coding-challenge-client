@@ -21,18 +21,6 @@ export class TransfersInterceptor implements HttpInterceptor {
             return next.handle(httpRequest);
         }
 
-        /*return next.handle(authReq).pipe(
-            tap(
-                (event) => {
-                    if (event instanceof HttpResponse) { console.log('Server response'); }
-                },
-                (err) => {
-                    if (err instanceof HttpErrorResponse) {
-                        if (err.status === 401) { console.log('Unauthorized'); }
-                    }
-                }
-            )
-        );*/
     }
     transfromTransferRecord(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // Override the responseType to disable the default JSON parsing.

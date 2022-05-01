@@ -1,26 +1,26 @@
 {
     "1a": {
-        "amount": 50,
-        "date": "2022-01-22",
+        "amount": 300,
+        "date": "2022-01-01",
         "iban": "DE12500105170648489890",
         "accountHolder": "John Doe (local)",
         "note": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested."
     },
     "1b": {
-        "amount": 500,
-        "date": "2022-01-02",
+        "amount": 1500.50,
+        "date": "2021-12-05",
         "iban": "DE12500105170648489890",
         "accountHolder": "Jim Doe (local)"
     },
     "1c": {
-        "amount": 99.99,
+        "amount": 990.99,
         "date": "2020-08-03",
         "iban": "DE12500105170648489890",
         "accountHolder": "Lucy Doe (local)",
         "note": "Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham."
     },
     "3a": {
-        "amount": 180500,
+        "amount": 180500.55,
         "date": "2020-12-15",
         "iban": "DE12500105170648489890",
         "accountHolder": "George Doe (local)",
@@ -33,7 +33,7 @@
     },
     "15a": {
         "amount": 200.33,
-        "date": "2020-05-21",
+        "date": "2018-05-21",
         "iban": "DE12500105170648489890",
         "note": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
     }

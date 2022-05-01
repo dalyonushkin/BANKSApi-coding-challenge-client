@@ -56,23 +56,21 @@ software like Aldus PageMaker including versions of Lorem Ipsum.`},
 
 export const transfersReducer = createReducer(
   initialState,
-  on(HomePageActions.addTransfer, (state, { transfer}) => {
-    const transfers: TransferRecordsList={...state.transfers};
-    transfers[uuidv4()]={...transfer};
-    return { ...state, transfers};
+  on(HomePageActions.addTransfer, (state, { transfer }) => {
+    const transfers: TransferRecordsList = { ...state.transfers };
+    transfers[uuidv4()] = { ...transfer };
+    return { ...state, transfers };
   }),
   on(HomePageActions.deleteTransfer, (state, { id }) => {
-    const transfers: TransferRecordsList={...state.transfers};
+    const transfers: TransferRecordsList = { ...state.transfers };
     delete transfers[id];
-    return { ...state, transfers};
+    return { ...state, transfers };
   }),
   on(HomePageActions.updateTransfer, (state, { id, transfer }) => {
-    const transfers: TransferRecordsList={...state.transfers};
-    transfers[id]={...transfer};
-    return { ...state, transfers};
+    const transfers: TransferRecordsList = { ...state.transfers };
+    transfers[id] = { ...transfer };
+    return { ...state, transfers };
   }),
-  on(HomePageActions.transfersLoaded, (state, payload: any) => {
-    console.log(payload);
-    return { ...state, transfers:payload.transfers };
-  }),
+  on(HomePageActions.transfersLoaded, (state, payload: any) => ({ ...state, transfers: payload.transfers })
+  ),
 );
