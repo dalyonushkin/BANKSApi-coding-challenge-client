@@ -142,6 +142,10 @@ describe('HomePage', () => {
     await component.confirmDeleteTransfer('a', { amount: 1, date: new Date(), iban: '123' });
     expect(alertSpy.present).toHaveBeenCalled();
   });
+  it('should show update url modal', async () => {
+    await component.updateConnectionUrl();
+    expect(alertSpy.present).toHaveBeenCalled();
+  });
 
   it('should update "searchText" on event update text in searchbar', async () => {
     component.searchText=null;

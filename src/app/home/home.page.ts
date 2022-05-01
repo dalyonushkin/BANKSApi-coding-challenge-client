@@ -126,7 +126,7 @@ export class HomePage implements OnInit {
         {
           name: 'url',
           type: 'url',
-          value: 'http://localhost:3003'
+          value: this.cfg.serverUrl||'http://localhost:3003'
         }],
       buttons: [{
         text: 'Confirm',
