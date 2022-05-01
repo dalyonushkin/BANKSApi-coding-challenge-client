@@ -26,6 +26,7 @@ Run Cypress testing
 - [ ] Todo:  move all staff related to model to separete file,
 - [ ] Todo: fix duplicate code at  `src/app/pipes/filter-transfer.pipe.ts`, need to use `UtilsService.filterTransfers`,
 - [ ] Todo: move `UtilsService.filterTransfers` to model,
+- [ ] Todo: add test for transform response from server,
 - Page Design is not my master skill :(
 - I'm unable to use property [isDateEnabled](https://ionicframework.com/docs/api/datetime#disabling-dates) of `ion-datetime` component. Looks like there are same [issue at GitHub](https://github.com/ionic-team/ionic-framework/issues/25189)
 - FormBuilder auto-validation changes the class of the parent component, I couldn't find a way to reproduce the same behavior in the controller's code. I decided to develop the component to make it look the same.

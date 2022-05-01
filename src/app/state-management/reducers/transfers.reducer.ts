@@ -71,4 +71,8 @@ export const transfersReducer = createReducer(
     transfers[id]={...transfer};
     return { ...state, transfers};
   }),
+  on(HomePageActions.transfersLoaded, (state, payload: any) => {
+    console.log(payload);
+    return { ...state, transfers:payload.transfers };
+  }),
 );

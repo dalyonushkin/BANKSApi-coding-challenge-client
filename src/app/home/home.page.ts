@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { EditTransferPage } from '../edit-transfer/edit-transfer.page';
 import { AlertController } from '@ionic/angular';
@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { addTransfer, deleteTransfer, updateTransfer } from '../state-management/actions/home-page.actions';
 import { FormatterService } from '../services/formatter.service';
 import { UtilsService } from '../services/utils.service';
+import { ConfigService } from '../services/config.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { UtilsService } from '../services/utils.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   transfersList$: Observable<TransferRecordsList>;
   filtredTransfersList: TransferRecordsList;
   transfersList: TransferRecordsList;
@@ -31,7 +32,8 @@ export class HomePage {
     public modalController: ModalController,
     public alertController: AlertController,
     private fmt: FormatterService,
-    private utl: UtilsService) {
+    private utl: UtilsService,
+    private cfg: ConfigService) {
     //I have some issues with NgRX selectors typings, so, doing select with RxJS now. If i'll have free time, i'll fix it later.
     this.transfersList$ = store.pipe(
       select('transfersStore'),
@@ -41,6 +43,9 @@ export class HomePage {
       this.transfersList = transfers;
       this.updateTransfersLists();
     });
+  }
+  ngOnInit(): void {
+    this.store.dispatch({ type: '[Home Page] Load Transfers' });
   }
 
   onSearchUpdate(event: CustomEvent) {
@@ -109,4 +114,43 @@ export class HomePage {
     this.store.dispatch(updateTransfer({ id, transfer }));
   }
 
+  isConnectedToBackend() {
+    return !this.cfg.isMockData;
+  }
+
+  async updateConnectionUrl() {
+    const alert = await this.alertController.create({
+      header: 'Connect to:',
+      message: 'Enter URL',
+      inputs: [
+        {
+          name: 'url',
+          type: 'url',
+          value: 'http://localhost:3003'
+        }],
+      buttons: [{
+        text: 'Confirm',
+        handler: ({ url }) => {
+          this.cfg.setServerUrl(url);
+          this.store.dispatch({ type: '[Home Page] Load Transfers' });
+        }
+      }, {
+        text: 'Use mock',
+        handler: () => {
+          this.cfg.setMockServer();
+          this.store.dispatch({ type: '[Home Page] Load Transfers' });
+        }
+      }],
+    });
+
+    await alert.present();
+  }
+
+  doRefresh($event) {
+    this.store.dispatch({ type: '[Home Page] Load Transfers' });
+    //Just to make user feel process. Todo - move to NgRX state property `isTransferDataLoading` and sucribe to store
+    setTimeout(() => {
+      $event.target.complete();
+    }, 300);
+  }
 }

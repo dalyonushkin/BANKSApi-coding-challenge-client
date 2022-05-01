@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { TransferRecordDataI } from '../model/transfers.model';
+import { TransferRecordDataI,TransferRecordsList } from '../model/transfers.model';
 
 
 
@@ -18,5 +18,9 @@ export const updateTransfer = createAction(
   props<{id: string; transfer: TransferRecordDataI}>()
 );
 
+export const transfersLoaded = createAction(
+  '[Transfers API] Transfers Loaded Success',
+  props<TransferRecordsList>()
+);
 
 
